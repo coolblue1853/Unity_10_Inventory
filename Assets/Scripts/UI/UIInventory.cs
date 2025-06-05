@@ -8,6 +8,7 @@ public class UIInventory : UIBase, IInventoryObserver
 {
     Inventory inventory;
     [SerializeField] private GameObject _slot;
+    [SerializeField] private TextMeshProUGUI _slotTxt;
     private GridLayoutGroup _slotGroup;
     List<UISlot> _slots;
     enum Objs
@@ -38,13 +39,24 @@ public class UIInventory : UIBase, IInventoryObserver
             slot.ResetSlot();
             _slots.Add(slot);
         }
-
+        SetInvenCount();
         inventory.AddObserver(this);
     }
 
+    private void SetInvenCount()
+    {
+        int itemCount = 0;
+        for (int i = 0; i < Constant.InventoryCount; i++)
+        {
+            if (inventory.Items[i] != null)
+                itemCount++;
+        }
+        _slotTxt.text = $"Inventory {itemCount} / {Constant.InventoryCount}";
+    }
     public void OnInventoryChanged(ItemData[] items)
     {
         RefreshUI();
+        SetInvenCount();
     }
     public void RefreshUI()
     {

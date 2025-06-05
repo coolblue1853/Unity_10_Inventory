@@ -15,7 +15,7 @@ MonoBehaviour:
   DisplayName: 
   Descrition: 
   Type: 1
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 0f1ab84ce14292a49a1357ef10023cea, type: 3}
   DropPrefab: {fileID: 0}
   MaxStackAmount: 0
   consumables: []
