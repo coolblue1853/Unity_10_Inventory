@@ -1,18 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class UIMainMenu : MonoBehaviour
+public class UIMainMenu : UIBase
 {
-    // Start is called before the first frame update
-    void Start()
+    private GameObject _statusObj;
+    private GameObject _InventoryObj;
+    [SerializeField] private Button _statusBtn;
+    [SerializeField] private Button _InventoryBtn;
+
+    protected override void Start()
     {
-        
+        base.Start();
+
+        _statusObj = _uIManager.UIStatus.gameObject;
+        _InventoryObj = _uIManager.UIInventory.gameObject;
+        _statusBtn.onClick.AddListener(OpenStatus);
+        _InventoryBtn.onClick.AddListener(OpenInventory);
+
     }
 
-    // Update is called once per frame
-    void Update()
+    void OpenStatus()
     {
-        
+        _uIManager.ResetUI();
+        _statusObj.SetActive(true);
     }
+    void OpenInventory()
+    {
+        _uIManager.ResetUI();
+        _InventoryObj.SetActive(true);
+    }
+
 }

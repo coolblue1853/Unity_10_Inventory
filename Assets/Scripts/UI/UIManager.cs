@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -25,5 +23,13 @@ public class UIManager : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+
+    public void ResetUI()
+    {
+        _uiMainMenu.gameObject.SetActive(false);
+        _uiStatus.gameObject.SetActive(false);
+        _uiInventory.gameObject.SetActive(false);
     }
 }
