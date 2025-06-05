@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class UISlot : MonoBehaviour
 {
+    private Inventory inventory;
     public ItemData Item = null;
     private bool _isEquiped = false;
 
@@ -11,7 +12,10 @@ public class UISlot : MonoBehaviour
     [SerializeField] private GameObject _equiped;
 
 
-
+    private void Start()
+    {
+        inventory = GameManager.Instance.Character.Inventory;
+    }
     // 아이콘 업데이트
     public void UpdateIcon(Sprite icon)
     {
@@ -45,11 +49,13 @@ public class UISlot : MonoBehaviour
         {
             _isEquiped = true;
             _equiped.SetActive(true);
+            inventory.ApplyItemStat(Item);
         }
         else
         {
             _isEquiped = false;
             _equiped.SetActive(false);
+            inventory.RemoveItemStat(Item);
         }
 
 

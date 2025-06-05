@@ -6,7 +6,6 @@ using UnityEngine.TextCore.Text;
 
 public class UIStatus : UIBase
 {
-    Character character;
 
     private TextMeshProUGUI _attackTxt;
     private TextMeshProUGUI _defenceTxt;
@@ -24,19 +23,27 @@ public class UIStatus : UIBase
     protected override void Start()
     {
         base.Start();
-        character = GameManager.Instance.Character;
+        InitUI();
+        // 최초 갱신
+        if (_attackTxt.text == "")
+            SetStatus(GameManager.Instance.Character);
+    }
+
+    public void InitUI()
+    {
         Bind<TextMeshProUGUI>(typeof(Txts));
 
         _attackTxt = Get<TextMeshProUGUI>((int)Txts.AttackTxt);
         _defenceTxt = Get<TextMeshProUGUI>((int)Txts.DefenceTxt);
         _healthTxt = Get<TextMeshProUGUI>((int)Txts.HealthTxt);
         _criticalTxt = Get<TextMeshProUGUI>((int)Txts.CriticalTxt);
-        SetStatus();
     }
 
-
-    void SetStatus()
+    public void SetStatus(Character character)
     {
+        if (_attackTxt == null)
+            return;
+
         _attackTxt.text = character.Stats.Attack.ToString();
         _defenceTxt.text = character.Stats.Defence.ToString();
         _healthTxt.text = character.Stats.Health.ToString();

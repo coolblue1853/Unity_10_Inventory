@@ -24,8 +24,6 @@ public class UIManager : MonoBehaviour
         }
         Instance = this;
     }
-
-
     public void ResetUI()
     {
         _uiStatus.gameObject.SetActive(false);

@@ -52,11 +52,13 @@ public class Character : MonoBehaviour
             OnStatsChanged?.Invoke(_stats);
         }
     }
+    public Inventory Inventory { get; private set; }
 
     // »ý¼ºÀÚ
-    public Character(string name, CharacterStats stats)
+    public Character(string name, CharacterStats stats, Inventory inventory)
     {
         _name = name;
         _stats = stats;
+        Inventory = inventory;
     }
 }

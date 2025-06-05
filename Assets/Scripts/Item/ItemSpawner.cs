@@ -6,18 +6,14 @@ using UnityEngine;
 public class ItemSpawner : MonoBehaviour
 {
     [SerializeField] private List<ItemData> dataList;
-    private InventoryManager inventoryManager;
+    private Inventory inventory;
 
-    private void Start()
+    public void SpawnRandItem()
     {
-        inventoryManager = GameManager.Instance.MainInventory;
-    }
+        if (inventory == null)
+            inventory = GameManager.Instance.Character.Inventory;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            inventoryManager.AddItem(dataList[0]);
-        }
+        int randNum = Random.Range(0, dataList.Count);
+        inventory.AddItem(dataList[randNum]);
     }
 }

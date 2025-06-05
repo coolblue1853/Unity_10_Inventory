@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UIInventory : UIBase, IInventoryObserver
 {
-    InventoryManager inventoryManager;
+    Inventory inventory;
     [SerializeField] private GameObject _slot;
     private GridLayoutGroup _slotGroup;
     List<UISlot> _slots;
@@ -18,7 +18,7 @@ public class UIInventory : UIBase, IInventoryObserver
     protected override void Start()
     {
         base.Start();
-        inventoryManager = GameManager.Instance.MainInventory;
+        inventory = GameManager.Instance.Character.Inventory;
         _slots = new List<UISlot>();
         Bind<GridLayoutGroup>(typeof(Objs));
 
@@ -39,7 +39,7 @@ public class UIInventory : UIBase, IInventoryObserver
             _slots.Add(slot);
         }
 
-        inventoryManager.AddObserver(this);
+        inventory.AddObserver(this);
     }
 
     public void OnInventoryChanged(ItemData[] items)
@@ -48,7 +48,7 @@ public class UIInventory : UIBase, IInventoryObserver
     }
     public void RefreshUI()
     {
-        var items = inventoryManager.Items;
+        var items = inventory.Items;
 
         for (int i = 0; i < _slots.Count; i++)
         {

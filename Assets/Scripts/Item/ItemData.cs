@@ -35,6 +35,26 @@ public class ItemDataEquip
 {
     public BuffType Type;
     public float Value;
+    public void Apply(ref CharacterStats stats)
+    {
+        switch (Type)
+        {
+            case BuffType.Attack:
+                stats.Attack += (int)Value;
+                break;
+                // 필요한 항목 계속 추가
+        }
+    }
+
+    public void Remove(ref CharacterStats stats)
+    {
+        switch (Type)
+        {
+            case BuffType.Attack:
+                stats.Attack -= (int)Value;
+                break;
+        }
+    }
 }
 
 [CreateAssetMenu(fileName = "Item", menuName = "New Item")]

@@ -10,11 +10,11 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     // 플레이어 정보
     private Character _character;
-    // 
-    [SerializeField] private InventoryManager _inventory;
+    // UI매니저
+    [SerializeField] private UIManager _uiManager;
     // 프로퍼티, get만 지정
     public Character Character => _character;
-    public InventoryManager MainInventory => _inventory;
+    public UIManager UIManager => _uiManager;
 
     private void Awake()
     {
@@ -30,10 +30,16 @@ public class GameManager : MonoBehaviour
     {
         var jobInfo = new JobInfo(Job.Slave);
         // 추후 baseTable 만들 필요성 있음
-        var stats = new CharacterStats(jobInfo, 10, 12, 9, 35, 40, 100, 25, 20000); 
-        _character = new Character("Chad",stats);
+        var stats = new CharacterStats(jobInfo, 10, 12, 9, 35, 40, 100, 25, 20000);
+        Inventory inventory = new Inventory(_uiManager.UIInventory);
+        _character = new Character("Chad",stats, inventory);
 
+        // 옵저버 구독
+        _character.OnStatsChanged += (newStats) => {
+            _uiManager.UIStatus.SetStatus(_character);
+        };
         // 갱신
-        UIManager.Instance.UIMainMenu.SetDetail(_character);
+        _uiManager.UIMainMenu.SetDetail(_character);
+
     }
 }
