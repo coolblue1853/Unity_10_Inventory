@@ -36,7 +36,6 @@ public class UISlot : MonoBehaviour
         Item = null;
         _icon.sprite = null;
         _icon.color = Constant.Alpha0;
-        _equiped.SetActive(false);
     }
 
     // UI 등장 합수

@@ -42,7 +42,15 @@ public class ItemDataEquip
             case BuffType.Attack:
                 stats.Attack += (int)Value;
                 break;
-                // 필요한 항목 계속 추가
+            case BuffType.Defence:
+                stats.Defence += (int)Value;
+                break;
+            case BuffType.Health:
+                stats.Health += (int)Value;
+                break;
+            case BuffType.Critical:
+                stats.Critical += (int)Value;
+                break;
         }
     }
 
@@ -52,6 +60,15 @@ public class ItemDataEquip
         {
             case BuffType.Attack:
                 stats.Attack -= (int)Value;
+                break;
+            case BuffType.Defence:
+                stats.Defence -= (int)Value;
+                break;
+            case BuffType.Health:
+                stats.Health -= (int)Value;
+                break;
+            case BuffType.Critical:
+                stats.Critical -= (int)Value;
                 break;
         }
     }

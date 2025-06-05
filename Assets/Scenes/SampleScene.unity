@@ -1839,6 +1839,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataList:
   - {fileID: 11400000, guid: 7f7c39f051112d740b987ddb6ac56815, type: 2}
+  - {fileID: 11400000, guid: 97adc4186cfbd214ba998160c2c743e5, type: 2}
+  - {fileID: 11400000, guid: 412908d4c8d683e4c9d1e00c946a3a52, type: 2}
+  - {fileID: 11400000, guid: aade6db3289301c4b88e369dfe3249c6, type: 2}
 --- !u!4 &566805482
 Transform:
   m_ObjectHideFlags: 0

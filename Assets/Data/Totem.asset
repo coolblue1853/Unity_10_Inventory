@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72ee71b7800569f42b6639f814271e01, type: 3}
-  m_Name: Sword
+  m_Name: Totem
   m_EditorClassIdentifier: 
   DisplayName: 
   Descrition: 
   Type: 1
-  Icon: {fileID: 21300000, guid: e81b213ebb7cfeb4da8120de3b5fc2ec, type: 3}
+  Icon: {fileID: 21300000, guid: c8ed07a6bc47f3d48ada30455fc5a757, type: 3}
   DropPrefab: {fileID: 0}
   MaxStackAmount: 0
   consumables: []
   buffs: []
   equips:
-  - Type: 0
-    Value: 10
+  - Type: 2
+    Value: 100
