@@ -25,15 +25,13 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
-    {
-        SetData();
-    }
-
-    void SetData()
+    public void SetData()
     {
         var jobInfo = new JobInfo(Job.Slave);
-        var stats = new CharacterStats(jobInfo, 10, 12, 9, 35, 40, 100, 25, 20000);
+        var stats = new CharacterStats(jobInfo, 10, 12, 9, 35, 40, 100, 25, 20000); // 추후 baseTable 만들 필요성 있음
         _character = new Character("Chad",stats);
+
+        // 갱신
+        UIManager.Instance.UIMainMenu.SetDetail(_character);
     }
 }

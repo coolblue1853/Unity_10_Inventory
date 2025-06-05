@@ -20,26 +20,36 @@ public class Define
 public struct JobInfo
 {
     public Job JobType;
-
+    public string Name;
     public string Description;
 
     public JobInfo(Job jobType)
     {
         JobType = jobType;
-        Description = JobDescriptions.GetDescription(JobType);
+        Name = JobData.GetName(jobType);
+        Description = JobData.GetDescription(jobType);
     }
 }
-public static class JobDescriptions
+
+public static class JobData
 {
-    private static readonly Dictionary<Job, string> descriptions = new Dictionary<Job, string>()
+    // 직업 이름, 직업 소개 순서
+    private static readonly Dictionary<Job, (string Name, string Description)> jobInfo = new Dictionary<Job, (string, string)>()
     {
-        { Job.Slave, "근접 전투에 특화된 전사입니다." },
+        { Job.Slave, ("코딩노예", "코딩의 노예가 된지 10년짜리 되는 머슴입니다. 오늘도 밤샐일만 남아서 치킨을 시킬지도 모른다는 생각에 배민을 키고 있네요.") },
     };
+
+    public static string GetName(Job job)
+    {
+        if (jobInfo.TryGetValue(job, out var value))
+            return value.Name;
+        return "이름 없는 직업";
+    }
 
     public static string GetDescription(Job job)
     {
-        if (descriptions.TryGetValue(job, out var description))
-            return description;
-        return "설명이 없는 직업입니다.";
+        if (jobInfo.TryGetValue(job, out var value))
+            return value.Description;
+        return "설명이 없는 직업";
     }
 }

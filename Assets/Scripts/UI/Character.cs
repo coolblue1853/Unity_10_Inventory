@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using static Define;
 
@@ -32,6 +33,8 @@ public struct CharacterStats
 public class Character : MonoBehaviour
 {
     [SerializeField] private string _name;
+    // 可历滚 菩畔
+    public event Action<CharacterStats> OnStatsChanged;
     public string Name
     {
         get => _name;
@@ -43,7 +46,11 @@ public class Character : MonoBehaviour
     public CharacterStats Stats
     {
         get => _stats;
-        set => _stats = value;
+        set
+        {
+            _stats = value;
+            OnStatsChanged?.Invoke(_stats);
+        }
     }
 
     // 积己磊

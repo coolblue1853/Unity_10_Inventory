@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,20 +6,64 @@ public class UIMainMenu : UIBase
 {
     private GameObject _statusObj;
     private GameObject _InventoryObj;
-    [SerializeField] private Button _statusBtn;
-    [SerializeField] private Button _InventoryBtn;
-    [SerializeField] private Button _mainBtn;
+    private Button _statusBtn;
+    private Button _InventoryBtn;
+    private Button _mainBtn;
+    private TextMeshProUGUI _jobTxt;
+    private TextMeshProUGUI _nameTxt;
+    private TextMeshProUGUI _levelTxt;
+    private TextMeshProUGUI _expTxt;
+    private TextMeshProUGUI _descriptionTxt;
+
+    enum Btn
+    {
+        StatusBtn,
+        InventoryBtn,
+        MainBtn,
+    }
+    enum Txts
+    {
+        JobTxt,
+        NameTxt,
+        LevelTxt,
+        ExpTxt,
+        DescriptionTxt,
+    }
+    enum Images
+    {
+        EmptyBar,
+        HpBar,
+    }
+
 
     protected override void Start()
     {
         base.Start();
+        // 자동화된 UI 연결
+        Bind<Button>(typeof(Btn));
+        Bind<TextMeshProUGUI>(typeof(Txts));
+
+        _statusBtn = Get<Button>((int)Btn.StatusBtn);
+        _InventoryBtn = Get<Button>((int)Btn.InventoryBtn);
+        _mainBtn = Get<Button>((int)Btn.MainBtn);
+        _jobTxt = Get<TextMeshProUGUI>((int)Txts.JobTxt);
+        _nameTxt = Get<TextMeshProUGUI>((int)Txts.NameTxt);
+        _levelTxt = Get<TextMeshProUGUI>((int)Txts.LevelTxt);
+        _expTxt = Get<TextMeshProUGUI>((int)Txts.ExpTxt);
+        _descriptionTxt = Get<TextMeshProUGUI>((int)Txts.DescriptionTxt);
+
 
         _statusObj = _uIManager.UIStatus.gameObject;
         _InventoryObj = _uIManager.UIInventory.gameObject;
+
+        // 버튼 함수 지정
         _mainBtn.onClick.AddListener(OpenMainMenu);
         _statusBtn.onClick.AddListener(OpenStatus);
         _InventoryBtn.onClick.AddListener(OpenInventory);
+
         OpenMainMenu();
+        // 최초 데이터 갱신 요청
+        GameManager.Instance.SetData();
     }
     void OpenMainMenu()
     {
@@ -37,7 +82,14 @@ public class UIMainMenu : UIBase
         ResetBtn(Define.Button.Inventory);
         _InventoryObj.SetActive(true);
     }
-
+    public void SetDetail(Character character)
+    {
+        _jobTxt.text = character.Stats.Job.Name;
+        _nameTxt.text = character.Name;
+        _levelTxt.text = $"LV {character.Stats.Level}";
+        _expTxt.text = $"{character.Stats.NowExp} / {character.Stats.MaxExp}";
+        _descriptionTxt.text = character.Stats.Job.Description;
+    }
 
     private void ResetBtn(Define.Button type)
     {
