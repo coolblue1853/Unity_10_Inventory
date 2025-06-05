@@ -28,7 +28,6 @@ public class UIManager : MonoBehaviour
 
     public void ResetUI()
     {
-        _uiMainMenu.gameObject.SetActive(false);
         _uiStatus.gameObject.SetActive(false);
         _uiInventory.gameObject.SetActive(false);
     }
