@@ -14,6 +14,8 @@ public class UIMainMenu : UIBase
     private TextMeshProUGUI _levelTxt;
     private TextMeshProUGUI _expTxt;
     private TextMeshProUGUI _descriptionTxt;
+    private TextMeshProUGUI _coinTxt;
+    private Image _expImg;
 
     enum Btn
     {
@@ -28,11 +30,11 @@ public class UIMainMenu : UIBase
         LevelTxt,
         ExpTxt,
         DescriptionTxt,
+        CoinTxt,
     }
     enum Images
     {
-        EmptyBar,
-        HpBar,
+        ExpBar,
     }
 
 
@@ -42,6 +44,7 @@ public class UIMainMenu : UIBase
         // 자동화된 UI 연결
         Bind<Button>(typeof(Btn));
         Bind<TextMeshProUGUI>(typeof(Txts));
+        Bind<Image>(typeof(Images));
 
         _statusBtn = Get<Button>((int)Btn.StatusBtn);
         _InventoryBtn = Get<Button>((int)Btn.InventoryBtn);
@@ -51,7 +54,8 @@ public class UIMainMenu : UIBase
         _levelTxt = Get<TextMeshProUGUI>((int)Txts.LevelTxt);
         _expTxt = Get<TextMeshProUGUI>((int)Txts.ExpTxt);
         _descriptionTxt = Get<TextMeshProUGUI>((int)Txts.DescriptionTxt);
-
+        _coinTxt = Get<TextMeshProUGUI>((int)Txts.CoinTxt);
+        _expImg = Get<Image>((int)Images.ExpBar);
 
         _statusObj = _uIManager.UIStatus.gameObject;
         _InventoryObj = _uIManager.UIInventory.gameObject;
@@ -88,6 +92,8 @@ public class UIMainMenu : UIBase
         _nameTxt.text = character.Name;
         _levelTxt.text = $"LV {character.Stats.Level}";
         _expTxt.text = $"{character.Stats.NowExp} / {character.Stats.MaxExp}";
+        _expImg.fillAmount = (float)character.Stats.NowExp / character.Stats.MaxExp;
+        _coinTxt.text = character.Stats.Coin.ToString();
         _descriptionTxt.text = character.Stats.Job.Description;
     }
 
