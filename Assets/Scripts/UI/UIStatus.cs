@@ -18,8 +18,6 @@ public class UIStatus : UIBase
         HealthTxt,
         CriticalTxt,
     }
-
-
     protected override void Start()
     {
         base.Start();
@@ -28,7 +26,6 @@ public class UIStatus : UIBase
         if (_attackTxt.text == "")
             SetStatus(GameManager.Instance.Character);
     }
-
     public void InitUI()
     {
         Bind<TextMeshProUGUI>(typeof(Txts));
@@ -38,7 +35,6 @@ public class UIStatus : UIBase
         _healthTxt = Get<TextMeshProUGUI>((int)Txts.HealthTxt);
         _criticalTxt = Get<TextMeshProUGUI>((int)Txts.CriticalTxt);
     }
-
     public void SetStatus(Character character)
     {
         if (_attackTxt == null)

@@ -3622,7 +3622,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.8051649, y: 0.89659005}
   m_AnchorMax: {x: 0.9651649, y: 0.96900004}
-  m_AnchoredPosition: {x: -0.22610474, y: 0.7999878}
+  m_AnchoredPosition: {x: -0.22607422, y: 0.7999878}
   m_SizeDelta: {x: -0.3477173, y: 0.651001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1309902389
@@ -4779,6 +4779,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a1e508702440af4c952223808e8800e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _characterPrefab: {fileID: 4347085111632451852, guid: b16dd10ea73a49b4d9b14515d2ffded5, type: 3}
+  _inventoryPrefab: {fileID: 9198061995486965121, guid: c6e5b231e8f6f464c818009bb172b9e7, type: 3}
   _uiManager: {fileID: 233988558}
 --- !u!4 &1850363914
 Transform:

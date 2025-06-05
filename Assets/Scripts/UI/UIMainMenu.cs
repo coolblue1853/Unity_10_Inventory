@@ -36,8 +36,6 @@ public class UIMainMenu : UIBase
     {
         ExpBar,
     }
-
-
     protected override void Start()
     {
         base.Start();

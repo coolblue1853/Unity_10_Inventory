@@ -35,6 +35,7 @@ public class Character : MonoBehaviour
     [SerializeField] private string _name;
     // 可历滚 菩畔
     public event Action<CharacterStats> OnStatsChanged;
+    public event Action<int> OnCoinChanged;
     public string Name
     {
         get => _name;
@@ -48,17 +49,23 @@ public class Character : MonoBehaviour
         get => _stats;
         set
         {
+            CharacterStats oldStats = _stats;
             _stats = value;
+
+            if (oldStats.Coin != _stats.Coin)
+            {
+                OnCoinChanged?.Invoke(_stats.Coin);
+            }
             OnStatsChanged?.Invoke(_stats);
         }
     }
     public Inventory Inventory { get; private set; }
 
-    // 积己磊
-    public Character(string name, CharacterStats stats, Inventory inventory)
+    public void Init(string name, CharacterStats stats, Inventory inventory)
     {
         _name = name;
         _stats = stats;
         Inventory = inventory;
+        Inventory.Character = this;
     }
 }

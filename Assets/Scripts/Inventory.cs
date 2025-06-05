@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 public interface IInventoryObserver
 {
     void OnInventoryChanged(ItemData[] items);
@@ -9,15 +10,15 @@ public interface IInventoryObserver
 public class Inventory : MonoBehaviour
 {
     public UIInventory UiInventory;
+    public Character Character;
     private List<IInventoryObserver> _observers = new();
     public ItemData[] Items; // 아이템이 담기는 배열
-    public Inventory(UIInventory uiInventory)
+
+    public void Init()
     {
-        UiInventory = uiInventory;
         _observers = new();
         Items = new ItemData[Constant.InventoryCount];
     }
-
     // 옵저버 추가, 제거, 최신화 함수
     public void AddObserver(IInventoryObserver observer)
     {
@@ -53,22 +54,22 @@ public class Inventory : MonoBehaviour
     {
         if (item == null || item.equips == null) return;
 
-        var stats = GameManager.Instance.Character.Stats;
+        var stats = Character.Stats;
 
         foreach (var equip in item.equips)
             equip.Apply(ref stats);
 
-        GameManager.Instance.Character.Stats = stats; // 옵저버 트리거
+        Character.Stats = stats; // 옵저버 트리거
     }
     public void RemoveItemStat(ItemData item)
     {
         if (item == null || item.equips == null) return;
 
-        var stats = GameManager.Instance.Character.Stats;
+        var stats = Character.Stats;
 
         foreach (var equip in item.equips)
             equip.Remove(ref stats);
 
-        GameManager.Instance.Character.Stats = stats; // 옵저버 트리거
+        Character.Stats = stats; // 옵저버 트리거
     }
 }
