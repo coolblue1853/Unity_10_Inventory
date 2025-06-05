@@ -9,11 +9,12 @@ public class GameManager : MonoBehaviour
     // 싱글턴
     public static GameManager Instance { get; private set; }
     // 플레이어 정보
-    private CharacterStats baseStats;
     private Character _character;
-
+    // 
+    [SerializeField] private InventoryManager _inventory;
     // 프로퍼티, get만 지정
     public Character Character => _character;
+    public InventoryManager MainInventory => _inventory;
 
     private void Awake()
     {
@@ -28,7 +29,8 @@ public class GameManager : MonoBehaviour
     public void SetData()
     {
         var jobInfo = new JobInfo(Job.Slave);
-        var stats = new CharacterStats(jobInfo, 10, 12, 9, 35, 40, 100, 25, 20000); // 추후 baseTable 만들 필요성 있음
+        // 추후 baseTable 만들 필요성 있음
+        var stats = new CharacterStats(jobInfo, 10, 12, 9, 35, 40, 100, 25, 20000); 
         _character = new Character("Chad",stats);
 
         // 갱신
