@@ -8,6 +8,7 @@ public class UIStatus : UIBase
 {
 
     private TextMeshProUGUI _attackTxt;
+    private TextMeshProUGUI _attackSpeedTxt;
     private TextMeshProUGUI _defenceTxt;
     private TextMeshProUGUI _healthTxt;
     private TextMeshProUGUI _criticalTxt;
@@ -17,6 +18,7 @@ public class UIStatus : UIBase
         DefenceTxt,
         HealthTxt,
         CriticalTxt,
+        AttackSpeedTxt,
     }
     protected override void Start()
     {
@@ -31,6 +33,7 @@ public class UIStatus : UIBase
         Bind<TextMeshProUGUI>(typeof(Txts));
 
         _attackTxt = Get<TextMeshProUGUI>((int)Txts.AttackTxt);
+        _attackSpeedTxt = Get<TextMeshProUGUI>((int)Txts.AttackSpeedTxt);
         _defenceTxt = Get<TextMeshProUGUI>((int)Txts.DefenceTxt);
         _healthTxt = Get<TextMeshProUGUI>((int)Txts.HealthTxt);
         _criticalTxt = Get<TextMeshProUGUI>((int)Txts.CriticalTxt);
@@ -41,6 +44,7 @@ public class UIStatus : UIBase
             return;
 
         _attackTxt.text = character.Stats.Attack.ToString();
+        _attackSpeedTxt.text = character.Stats.AttackSpeed.ToString();
         _defenceTxt.text = character.Stats.Defence.ToString();
         _healthTxt.text = character.Stats.Health.ToString();
         _criticalTxt.text = character.Stats.Critical.ToString();

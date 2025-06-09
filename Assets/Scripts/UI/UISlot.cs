@@ -26,7 +26,7 @@ public class UISlot : MonoBehaviour
     public void SetItem(ItemData item)
     {
         Item = item;
-        _equiped.SetActive(false);
+        //_equiped.SetActive(false);
     }
     // 장착여부 업데이트
 

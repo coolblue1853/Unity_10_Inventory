@@ -17,6 +17,7 @@ public class Define
     }
 
 }
+[System.Serializable]
 public struct JobInfo
 {
     public Job JobType;
@@ -30,6 +31,7 @@ public struct JobInfo
         Description = JobData.GetDescription(jobType);
     }
 }
+
 
 public static class JobData
 {

@@ -13,6 +13,7 @@ public enum ConsumableType
 public enum BuffType
 {
     Attack,
+    AttackSpeed,
     Defence,
     Health,
     Critical,
@@ -42,6 +43,9 @@ public class ItemDataEquip
             case BuffType.Attack:
                 stats.Attack += (int)Value;
                 break;
+            case BuffType.AttackSpeed:
+                stats.AttackSpeed += (int)Value;
+                break;
             case BuffType.Defence:
                 stats.Defence += (int)Value;
                 break;
@@ -60,6 +64,9 @@ public class ItemDataEquip
         {
             case BuffType.Attack:
                 stats.Attack -= (int)Value;
+                break;
+            case BuffType.AttackSpeed:
+                stats.AttackSpeed -= (int)Value;
                 break;
             case BuffType.Defence:
                 stats.Defence -= (int)Value;
