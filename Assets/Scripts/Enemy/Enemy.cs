@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
+using UnityEditor;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class Enemy : MonoBehaviour
 {
@@ -10,6 +13,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float duration =0.2f;
     [SerializeField] private float magnitude = 2f;
     [SerializeField] private ParticleSystem _bloodEffect;
+    [SerializeField] private GameObject _damageTextPrefab;
+    [SerializeField] private Canvas _canvas;
+    [SerializeField] private Vector3 _pivot;
+
     private void Awake()
     {
         _rect = GetComponent<RectTransform>();
@@ -19,12 +26,17 @@ public class Enemy : MonoBehaviour
         _audioManager = GameManager.Instance.AudioManager;
     }
 
-    public void Hit()
+    public void Hit(BigInteger dmg, bool isCrit = false)
     {
         Shake();
         _bloodEffect.Play();
         _audioManager.PlaySFX("Hit");
-    }
+
+        if (isCrit)
+            DamageTxtSpawn(transform.position + _pivot, Utils.FormatBigInteger(dmg)+"!", Constant.Red);
+        else
+            DamageTxtSpawn(transform.position + _pivot, Utils.FormatBigInteger(dmg), Constant.Red);
+        }
 
     private void Shake()
     {
@@ -50,4 +62,13 @@ public class Enemy : MonoBehaviour
         _rect.anchoredPosition = originalPos;
     }
 
+    public void DamageTxtSpawn(Vector3 worldPosition, string damage, Color color)
+    {
+
+        GameObject obj = Instantiate(_damageTextPrefab, _canvas.transform);
+        obj.transform.position = worldPosition;
+
+        var damageText = obj.GetComponent<DamageText>();
+        damageText.Setup(damage, color);
+    }
 }

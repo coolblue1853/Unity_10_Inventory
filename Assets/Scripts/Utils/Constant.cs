@@ -9,4 +9,5 @@ public class Constant
     //»ö»ó
     public static Color Alpha0 = new Color(255, 255, 255, 0);
     public static Color Alpha255 = new Color(255, 255, 255, 255);
+    public static Color Red = new Color(156, 0, 0, 255);
 }

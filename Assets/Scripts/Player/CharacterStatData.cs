@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Numerics;
 using static Define;
 
 [CreateAssetMenu(fileName = "CharacterStatData", menuName = "Game Data/CharacterStatData")]
@@ -13,7 +14,15 @@ public class CharacterStatData : ScriptableObject
     public int Defence;
     public int Health;
     public int Critical;
-    public int Coin;
+
+    [SerializeField]
+    private string coinString = "0";
+
+    public BigInteger Coin
+    {
+        get => BigInteger.TryParse(coinString, out var result) ? result : BigInteger.Zero;
+        set => coinString = value.ToString();
+    }
 
     public CharacterStats ToCharacterStats()
     {

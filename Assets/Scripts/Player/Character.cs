@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using static Define;
+using System.Numerics;
 
 // 스탯 종류 구조체
 [System.Serializable]
@@ -15,10 +15,10 @@ public struct CharacterStats
     public int Defence;
     public int Health;
     public int Critical;
-    public int Coin;
+    public BigInteger Coin;
 
 
-    public CharacterStats(JobInfo job,int level, int maxExp, int nowExp, int attack, int attackSpeed, int defence, int health, int critical, int coin)
+    public CharacterStats(JobInfo job,int level, int maxExp, int nowExp, int attack, int attackSpeed, int defence, int health, int critical, BigInteger coin)
     {
         Job = job;
         Level = level;
@@ -38,7 +38,7 @@ public class Character : MonoBehaviour
     [SerializeField] private string _name;
     // 옵저버 패턴
     public event Action<CharacterStats> OnStatsChanged;
-    public event Action<int> OnCoinChanged;
+    public event Action<BigInteger> OnCoinChanged;
 
     private void Awake()
     {

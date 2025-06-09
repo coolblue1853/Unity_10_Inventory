@@ -20,16 +20,19 @@ public class Weapon : MonoBehaviour
         if(_character.Stats.Critical >= critNum)
         {
             var stats = _character.Stats;
-            stats.Coin += (int)(stats.Attack * Constant.CritCoinRate);
+            var attackPower = (int)(stats.Attack * Constant.CritCoinRate);
+            stats.Coin += attackPower;
             _character.Stats = stats;
+            _enemy.Hit(attackPower);
         }
         else // 크리티컬 실패
         {
             var stats = _character.Stats;
             stats.Coin += stats.Attack;
             _character.Stats = stats;
+            _enemy.Hit(stats.Attack);
         }
         _audioManager.PlaySFX("Attack");
-        _enemy.Hit();
+  
     }
 }

@@ -105,7 +105,7 @@ public class UIMainMenu : UIBase
         _levelTxt.text = $"LV {character.Stats.Level}";
         _expTxt.text = $"{character.Stats.NowExp} / {character.Stats.MaxExp}";
         _expImg.fillAmount = (float)character.Stats.NowExp / character.Stats.MaxExp;
-        _coinTxt.text = character.Stats.Coin.ToString();
+        _coinTxt.text = Utils.FormatBigInteger(character.Stats.Coin);
         _descriptionTxt.text = character.Stats.Job.Description;
     }
 
