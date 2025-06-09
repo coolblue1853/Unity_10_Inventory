@@ -23,7 +23,7 @@ MonoBehaviour:
   MaxExp: 12
   NowExp: 9
   Attack: 35
-  AttackSpeed: 4
+  AttackSpeed: 1
   Defence: 40
   Health: 100
   Critical: 25

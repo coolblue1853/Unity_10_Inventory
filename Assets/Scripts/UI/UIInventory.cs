@@ -70,7 +70,7 @@ public class UIInventory : UIBase, IInventoryObserver
             if (item != null)
             {
                 slot.SetItem(item);
-                slot.UpdateIcon(item.Icon);
+                slot.UpdateIcon(item);
             }
             else
             {

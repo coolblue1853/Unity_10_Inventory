@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class UISlot : MonoBehaviour
     private bool _isEquiped = false;
 
     [SerializeField] private Image _icon;
+    [SerializeField] private Image _base;
     [SerializeField] private GameObject _equiped;
 
 
@@ -17,16 +19,34 @@ public class UISlot : MonoBehaviour
         inventory = GameManager.Instance.Character.Inventory;
     }
     // 아이콘 업데이트
-    public void UpdateIcon(Sprite icon)
+    public void UpdateIcon(ItemData item)
     {
-        _icon.sprite = icon;
+        _icon.sprite = item.Icon;
         _icon.color = Constant.Alpha255;
+        switch (item.Rarity)
+        {
+            case ItemRarity.Common:
+                _base.color = Constant.White;
+                break;
+            case ItemRarity.Uncommon:
+                _base.color = Constant.Green;
+                break;
+            case ItemRarity.Rare:
+                _base.color = Constant.Blue;
+                break;
+            case ItemRarity.Unique:
+                _base.color = Constant.Pink;
+                break;
+            case ItemRarity.Legendary:
+                _base.color = Constant.Orange;
+                break;
+
+        }
     }
 
     public void SetItem(ItemData item)
     {
         Item = item;
-        //_equiped.SetActive(false);
     }
     // 장착여부 업데이트
 

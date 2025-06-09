@@ -697,7 +697,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1361376463}
   m_HandleRect: {fileID: 1361376462}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1977,6 +1977,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 412908d4c8d683e4c9d1e00c946a3a52, type: 2}
   - {fileID: 11400000, guid: aade6db3289301c4b88e369dfe3249c6, type: 2}
   - {fileID: 11400000, guid: 18444f07a783cbc4380d6def67f7ad2d, type: 2}
+  - {fileID: 11400000, guid: 7d89b23a95ac8a741b7bb8acd57846c1, type: 2}
+  - {fileID: 11400000, guid: 4f2946097dfe26e4686d7738a0725993, type: 2}
+  - {fileID: 11400000, guid: 312b6b16636f4894a98786e45ca265bf, type: 2}
+  - {fileID: 11400000, guid: 69b99d39ea015264885c98e338ce4f27, type: 2}
+  - {fileID: 11400000, guid: a8b26059b24a02743bf405580c632ad6, type: 2}
+  - {fileID: 11400000, guid: df5a3653c42e0a04cbc47e553f3acadb, type: 2}
+  - {fileID: 11400000, guid: 8c2a556a7bc22ee448b6ef388ecc2844, type: 2}
+  - {fileID: 11400000, guid: 42b52370cf87e1a49b928f61e2b412f5, type: 2}
 --- !u!4 &566805482
 Transform:
   m_ObjectHideFlags: 0

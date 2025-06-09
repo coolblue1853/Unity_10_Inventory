@@ -24,15 +24,15 @@ public class PlayerController : MonoBehaviour
     {
         while (true)
         {
-            float currentCooldown = _character.Stats.AttackSpeed;
+            float currentAttackSpeed = _character.Stats.AttackSpeed;
+            float cooldown = _baseCooldown / currentAttackSpeed;
 
-            // 애니메이션 속도 = 기본쿨타임 / 현재쿨타임
-            float speedMultiplier = _baseCooldown / currentCooldown;
-
-            _animator.SetFloat("attackSpeedMultiplier", speedMultiplier);
+            // 애니메이터 전체 속도 조절
+            _animator.speed = currentAttackSpeed; 
             _animator.Play("Attack");
 
-            yield return new WaitForSeconds(speedMultiplier); // 현재 쿨타임 만큼만 대기
+            yield return new WaitForSeconds(cooldown);
         }
     }
+
 }

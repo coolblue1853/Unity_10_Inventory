@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72ee71b7800569f42b6639f814271e01, type: 3}
-  m_Name: Bow
+  m_Name: LBow
   m_EditorClassIdentifier: 
   DisplayName: 
   Descrition: 
-  Type: 1
-  Icon: {fileID: 21300000, guid: 9e9eafe4b6bc6514cb3d9a3e365c367d, type: 3}
+  Type: 0
+  Rarity: 4
+  Icon: {fileID: 21300000, guid: 00fcadd8ec2a6724f9ed29d895adb7db, type: 3}
   DropPrefab: {fileID: 0}
   MaxStackAmount: 0
   consumables: []
   buffs: []
   equips:
   - Type: 1
-    Value: 1
+    Value: 5

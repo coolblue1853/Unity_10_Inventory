@@ -18,6 +18,14 @@ public enum BuffType
     Health,
     Critical,
 }
+public enum ItemRarity
+{
+    Common,
+    Uncommon,
+    Rare,
+    Unique,
+    Legendary
+}
 [System.Serializable]
 public class ItemDataConsumable
 {
@@ -88,6 +96,7 @@ public class ItemData : ScriptableObject
     public string DisplayName;
     public string Descrition;
     public ItemType Type;
+    public ItemRarity Rarity; // <- Ãß°¡
     public Sprite Icon;
     public GameObject DropPrefab;
 
@@ -103,3 +112,4 @@ public class ItemData : ScriptableObject
     [Header("Equip")]
     public ItemDataEquip[] equips;
 }
+
