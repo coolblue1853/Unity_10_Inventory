@@ -27,4 +27,4 @@ MonoBehaviour:
   Defence: 40
   Health: 100
   Critical: 25
-  coinString: 1000
+  _coinString: 1000

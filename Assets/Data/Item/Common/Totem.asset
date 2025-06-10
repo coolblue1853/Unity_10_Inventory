@@ -15,7 +15,8 @@ MonoBehaviour:
   DisplayName: 
   Descrition: 
   Type: 1
-  Icon: {fileID: 21300000, guid: c8ed07a6bc47f3d48ada30455fc5a757, type: 3}
+  Rarity: 0
+  Icon: {fileID: 21300000, guid: 7a3b865a82d321a41bcfd35ec4680ccb, type: 3}
   DropPrefab: {fileID: 0}
   MaxStackAmount: 0
   consumables: []

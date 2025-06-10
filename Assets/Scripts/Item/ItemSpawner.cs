@@ -3,49 +3,49 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
-    [SerializeField] private List<ItemData> dataList;
-    private Character character;
-    private Inventory inventory;
+    [SerializeField] private List<ItemData> _dataList;
+    private Character _character;
+    private Inventory _inventory;
 
-    // 등급별 확률 (합은 1.0 또는 100%)
     private readonly Dictionary<ItemRarity, float> rarityChances = new()
     {
-        { ItemRarity.Common, 0.5f },     // 50%
-        { ItemRarity.Uncommon, 0.25f },  // 25%
-        { ItemRarity.Rare, 0.15f },      // 15%
-        { ItemRarity.Unique, 0.07f },    // 7%
-        { ItemRarity.Legendary, 0.03f }  // 3%
+        { ItemRarity.Common, 0.5f },
+        { ItemRarity.Uncommon, 0.25f },
+        { ItemRarity.Rare, 0.15f },
+        { ItemRarity.Unique, 0.07f },
+        { ItemRarity.Legendary, 0.03f }
     };
 
+    //  아이템 뽑기 함수
     public void SpawnRandItem()
     {
-        if (character == null)
-            character = GameManager.Instance.Character;
-        if (inventory == null)
-            inventory = character.Inventory;
+        if (_character == null)
+            _character = GameManager.Instance.Character;
+        if (_inventory == null)
+            _inventory = _character.Inventory;
 
-        if (character.Stats.Coin < Constant.ItemCost)
+        if (_character.Stats.Coin < Constant.ItemCost)
             return;
 
         // 코인 차감
-        var stats = character.Stats;
+        var stats = _character.Stats;
         stats.Coin -= Constant.ItemCost;
-        character.Stats = stats;
+        _character.Stats = stats;
 
         // 확률에 따라 등급 선택
         ItemRarity selectedRarity = RollRarity();
 
         // 해당 등급의 아이템 필터링
-        List<ItemData> candidates = dataList.FindAll(item => item.Rarity == selectedRarity);
+        List<ItemData> candidates = _dataList.FindAll(item => item.Rarity == selectedRarity);
 
         if (candidates.Count > 0)
         {
             int rand = Random.Range(0, candidates.Count);
-            inventory.AddItem(candidates[rand]);
+            _inventory.AddItem(candidates[rand]);
         }
 
     }
-
+    // 등급 지정
     private ItemRarity RollRarity()
     {
         float roll = Random.value; // 0.0 ~ 1.0

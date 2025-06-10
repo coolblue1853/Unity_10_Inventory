@@ -1,7 +1,4 @@
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class UISlot : MonoBehaviour
@@ -72,7 +69,7 @@ public class UISlot : MonoBehaviour
         else
             ToggleEquip();
     }
-
+    // 아이템 판매
     public void SellItem()
     {
         if (Item == null)
@@ -85,9 +82,12 @@ public class UISlot : MonoBehaviour
 
         // 인벤토리 갱신
         _base.color = Constant.White;
-        _isEquiped = false;
-        _equiped.SetActive(false);
-        _inventory.RemoveItemStat(Item);
+        if (_isEquiped)
+        {
+            _isEquiped = false;
+            _equiped.SetActive(false);
+            _inventory.RemoveItemStat(Item);
+        }
         _inventory.DeleteItem(Idx);
 
 

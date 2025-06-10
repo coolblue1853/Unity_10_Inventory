@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Constant
 {
+    // »ó¼ö°ª
     public const int InventoryCount = 120;
     public const int ItemCost = 100;
     public const int sellCost = 50;

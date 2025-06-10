@@ -34,7 +34,7 @@ public struct CharacterStats
 }
 public class Character : MonoBehaviour
 {
-    private PlayerController playerController;
+    private PlayerController _playerController;
     [SerializeField] private string _name;
     // 옵저버 패턴
     public event Action<CharacterStats> OnStatsChanged;
@@ -42,7 +42,7 @@ public class Character : MonoBehaviour
 
     private void Awake()
     {
-        playerController = GetComponent<PlayerController>();
+        _playerController = GetComponent<PlayerController>();
     }
     public string Name
     {
@@ -75,6 +75,6 @@ public class Character : MonoBehaviour
         _stats = stats;
         Inventory = inventory;
         Inventory.Character = this;
-        playerController.InitPlayer(this);
+        _playerController.InitPlayer(this);
     }
 }

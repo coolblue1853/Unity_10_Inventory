@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Utils 
 {
+    // Big 인티저를 이용해서 가져오는 포맷값
     public static string FormatBigInteger(BigInteger number)
     {
         if (number < 1000) return number.ToString();

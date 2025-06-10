@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Numerics;
-using UnityEditor;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
@@ -10,8 +8,10 @@ public class Enemy : MonoBehaviour
 {
     private AudioManager _audioManager;
     private RectTransform _rect;
-    [SerializeField] private float duration =0.2f;
-    [SerializeField] private float magnitude = 2f;
+
+    // 피격 관련 변수
+    [SerializeField] private float _duration = 0.2f;
+    [SerializeField] private float _magnitude = 2f;
     [SerializeField] private ParticleSystem _bloodEffect;
     [SerializeField] private GameObject _damageTextPrefab;
     [SerializeField] private Canvas _canvas;
@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour
         _audioManager = GameManager.Instance.AudioManager;
     }
 
+    // 피격함수
     public void Hit(BigInteger dmg, bool isCrit = false)
     {
         Shake();
@@ -36,8 +37,9 @@ public class Enemy : MonoBehaviour
             DamageTxtSpawn(transform.position + _pivot, Utils.FormatBigInteger(dmg)+"!", Constant.Red);
         else
             DamageTxtSpawn(transform.position + _pivot, Utils.FormatBigInteger(dmg), Constant.Red);
-        }
+    }
 
+    // 진동함수
     private void Shake()
     {
         StartCoroutine(ShakeCoroutine());
@@ -48,10 +50,10 @@ public class Enemy : MonoBehaviour
         Vector3 originalPos = _rect.anchoredPosition;
         float elapsed = 0f;
 
-        while (elapsed < duration)
+        while (elapsed < _duration)
         {
-            float x = Random.Range(-1f, 1f) * magnitude;
-            float y = Random.Range(-1f, 1f) * magnitude;
+            float x = Random.Range(-1f, 1f) * _magnitude;
+            float y = Random.Range(-1f, 1f) * _magnitude;
 
             _rect.anchoredPosition = (Vector2)originalPos + new Vector2(x, y);
 
@@ -62,6 +64,7 @@ public class Enemy : MonoBehaviour
         _rect.anchoredPosition = originalPos;
     }
 
+    // 데미지 플로팅 텍스트 생성
     public void DamageTxtSpawn(Vector3 worldPosition, string damage, Color color)
     {
 

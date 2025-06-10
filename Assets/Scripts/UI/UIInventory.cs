@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -49,7 +48,7 @@ public class UIInventory : UIBase, IInventoryObserver
         SetInvenCount();
         _inventory.AddObserver(this);
     }
-
+    // 인벤토리 아이템수 / 슬롯수 갱신
     private void SetInvenCount()
     {
         int itemCount = 0;
@@ -60,12 +59,14 @@ public class UIInventory : UIBase, IInventoryObserver
         }
         _slotTxt.text = $"Inventory {itemCount} / {Constant.InventoryCount}";
     }
+
+    // 인벤토리 내용이 변했을떄의 Invoke 함수
     public void OnInventoryChanged(ItemData[] items)
     {
         RefreshUI();
         SetInvenCount();
     }
-
+    // 모드 변환
     public void TogleEquipSell()
     {
         _inventory.TogleMode();
@@ -74,7 +75,7 @@ public class UIInventory : UIBase, IInventoryObserver
         else
             _togleBtnTxt.text = eqiopStr;
     }
-
+    // UI  갱신
     public void RefreshUI()
     {
         var items = _inventory.Items;

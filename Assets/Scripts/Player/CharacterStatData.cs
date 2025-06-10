@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Numerics;
-using static Define;
 
 [CreateAssetMenu(fileName = "CharacterStatData", menuName = "Game Data/CharacterStatData")]
 public class CharacterStatData : ScriptableObject
@@ -16,14 +15,14 @@ public class CharacterStatData : ScriptableObject
     public int Critical;
 
     [SerializeField]
-    private string coinString = "0";
+    private string _coinString = "0";
 
     public BigInteger Coin
     {
-        get => BigInteger.TryParse(coinString, out var result) ? result : BigInteger.Zero;
-        set => coinString = value.ToString();
+        get => BigInteger.TryParse(_coinString, out var result) ? result : BigInteger.Zero;
+        set => _coinString = value.ToString();
     }
-
+    // 스크립터블 오브젝트에서 CharacterStats로 추출
     public CharacterStats ToCharacterStats()
     {
         return new CharacterStats(Job, Level, MaxExp, NowExp, Attack, AttackSpeed, Defence, Health, Critical, Coin);

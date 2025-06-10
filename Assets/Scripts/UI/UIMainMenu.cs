@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class UIMainMenu : UIBase
 {
     private AudioManager _audioManager;
@@ -74,6 +73,7 @@ public class UIMainMenu : UIBase
         // 최초 데이터 갱신 요청
         GameManager.Instance.SetData();
     }
+    // 메인 UI 
     void OpenMainMenu()
     {
         if (isInit)
@@ -84,6 +84,7 @@ public class UIMainMenu : UIBase
         _uIManager.ResetUI();
         ResetBtn(Define.Button.Main);
     }
+    // 능력치 UI
     void OpenStatus()
     {
         _audioManager.PlaySFX("SelectBtn");
@@ -91,6 +92,7 @@ public class UIMainMenu : UIBase
         ResetBtn(Define.Button.Status);
         _statusObj.SetActive(true);
     }
+    // 인벤토리 UI
     void OpenInventory()
     {
         _audioManager.PlaySFX("SelectBtn");
@@ -98,6 +100,7 @@ public class UIMainMenu : UIBase
         ResetBtn(Define.Button.Inventory);
         _InventoryObj.SetActive(true);
     }
+    // 메인 화면의 능력치 표기
     public void SetDetail(Character character)
     {
         _jobTxt.text = character.Stats.Job.Name;
@@ -108,7 +111,7 @@ public class UIMainMenu : UIBase
         _coinTxt.text = Utils.FormatBigInteger(character.Stats.Coin);
         _descriptionTxt.text = character.Stats.Job.Description;
     }
-
+    // 버튼 리셋
     private void ResetBtn(Define.Button type)
     {
 

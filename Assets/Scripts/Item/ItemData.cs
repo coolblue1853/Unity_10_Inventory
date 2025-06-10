@@ -92,14 +92,11 @@ public class ItemDataEquip
 [CreateAssetMenu(fileName = "Item", menuName = "New Item")]
 public class ItemData : ScriptableObject
 {
-    [Header("ID")]
-    public string itemId;
-
     [Header("Info")]
     public string DisplayName;
     public string Descrition;
     public ItemType Type;
-    public ItemRarity Rarity;
+    public ItemRarity Rarity;   
     public Sprite Icon;
     public GameObject DropPrefab;
 

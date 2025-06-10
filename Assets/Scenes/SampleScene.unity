@@ -1974,20 +1974,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336aea3f7730a364395d15a76e4a3d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataList:
-  - {fileID: 11400000, guid: 7f7c39f051112d740b987ddb6ac56815, type: 2}
+  _dataList:
+  - {fileID: 11400000, guid: 18444f07a783cbc4380d6def67f7ad2d, type: 2}
   - {fileID: 11400000, guid: 97adc4186cfbd214ba998160c2c743e5, type: 2}
   - {fileID: 11400000, guid: 412908d4c8d683e4c9d1e00c946a3a52, type: 2}
+  - {fileID: 11400000, guid: 7f7c39f051112d740b987ddb6ac56815, type: 2}
   - {fileID: 11400000, guid: aade6db3289301c4b88e369dfe3249c6, type: 2}
-  - {fileID: 11400000, guid: 18444f07a783cbc4380d6def67f7ad2d, type: 2}
-  - {fileID: 11400000, guid: 7d89b23a95ac8a741b7bb8acd57846c1, type: 2}
   - {fileID: 11400000, guid: 4f2946097dfe26e4686d7738a0725993, type: 2}
+  - {fileID: 11400000, guid: 7d89b23a95ac8a741b7bb8acd57846c1, type: 2}
   - {fileID: 11400000, guid: 312b6b16636f4894a98786e45ca265bf, type: 2}
   - {fileID: 11400000, guid: 69b99d39ea015264885c98e338ce4f27, type: 2}
   - {fileID: 11400000, guid: a8b26059b24a02743bf405580c632ad6, type: 2}
   - {fileID: 11400000, guid: df5a3653c42e0a04cbc47e553f3acadb, type: 2}
-  - {fileID: 11400000, guid: 8c2a556a7bc22ee448b6ef388ecc2844, type: 2}
   - {fileID: 11400000, guid: 42b52370cf87e1a49b928f61e2b412f5, type: 2}
+  - {fileID: 11400000, guid: 8c2a556a7bc22ee448b6ef388ecc2844, type: 2}
 --- !u!4 &566805482
 Transform:
   m_ObjectHideFlags: 0
@@ -2267,6 +2267,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1850363914}
     m_Modifications:
+    - target: {fileID: 1563974611872251762, guid: beac1233caf34ee4a97ba2c2ced1d42b, type: 3}
+      propertyPath: BgmSource
+      value: 
+      objectReference: {fileID: 850271815}
+    - target: {fileID: 1563974611872251762, guid: beac1233caf34ee4a97ba2c2ced1d42b, type: 3}
+      propertyPath: SfxSource
+      value: 
+      objectReference: {fileID: 1685358419}
+    - target: {fileID: 1563974611872251762, guid: beac1233caf34ee4a97ba2c2ced1d42b, type: 3}
+      propertyPath: AudioMixer
+      value: 
+      objectReference: {fileID: 24100000, guid: 397076e5be80a7e419c8f5128f746c84, type: 2}
+    - target: {fileID: 1563974611872251762, guid: beac1233caf34ee4a97ba2c2ced1d42b, type: 3}
+      propertyPath: BgmClips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1563974611872251762, guid: beac1233caf34ee4a97ba2c2ced1d42b, type: 3}
+      propertyPath: BgmClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 96ec95d256e03f645b4c1350cdbc959a, type: 3}
     - target: {fileID: 1563974611872251762, guid: beac1233caf34ee4a97ba2c2ced1d42b, type: 3}
       propertyPath: bgmClips.Array.data[0]
       value: 
@@ -2956,6 +2976,11 @@ RectTransform:
   m_AnchoredPosition: {x: 186.71, y: 189.42496}
   m_SizeDelta: {x: 200, y: 23.27}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!82 &850271815 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 7981941850133304326, guid: beac1233caf34ee4a97ba2c2ced1d42b, type: 3}
+  m_PrefabInstance: {fileID: 598379837}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &859059017
 GameObject:
   m_ObjectHideFlags: 0
@@ -4574,8 +4599,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8fe5903ce4426b479ab66d968833921, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0.2
-  magnitude: 3
+  _duration: 0.2
+  _magnitude: 2
   _bloodEffect: {fileID: 1424157412}
   _damageTextPrefab: {fileID: 1986899707570577206, guid: 2a063014bb65b5044a645ed1bda20809, type: 3}
   _canvas: {fileID: 927648267}
@@ -10307,6 +10332,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!82 &1685358419 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 7648575010772160782, guid: beac1233caf34ee4a97ba2c2ced1d42b, type: 3}
+  m_PrefabInstance: {fileID: 598379837}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1719953452
 GameObject:
   m_ObjectHideFlags: 0
@@ -10480,7 +10510,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8f2f85d5a0b08ef42b85af6d437d805a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8b5835318aa24f64187f339730ecc512, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

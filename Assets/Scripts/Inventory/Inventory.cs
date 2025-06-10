@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
-using static UnityEditor.Progress;
 public interface IInventoryObserver
 {
     void OnInventoryChanged(ItemData[] items);
@@ -12,15 +8,16 @@ public class Inventory : MonoBehaviour
 {
     public UIInventory UiInventory;
     public Character Character;
-    private List<IInventoryObserver> _observers = new();
     public ItemData[] Items; // 아이템이 담기는 배열
     public bool IsSellMode = false;
+
+    private List<IInventoryObserver> _observers = new();
     public void Init()
     {
         _observers = new();
         Items = new ItemData[Constant.InventoryCount];
     }
-
+    // 판매 <> 장착 모드 전환
     public void TogleMode()
     {
         IsSellMode = !IsSellMode;
