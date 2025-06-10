@@ -8,13 +8,15 @@
 
 ## 📷 스크린샷
 
+![add5](https://github.com/user-attachments/assets/323626a0-eab4-4601-a5af-e84b696e7b77)
 
 ## 빌드 파일 주소
 
 ## 시연 영상 주소
 
-## 3D 방치형 (절차적 맵 생성 & FSM) 레퍼지토리 링크
+## (추가) 3D 방치형 (절차적 맵 생성 & FSM) 레퍼지토리 링크
 
+https://github.com/coolblue1853/Unity_Master_Solo
 
 ## 🕹️ 기능
 <details>
@@ -430,71 +432,429 @@ public class UISlot : MonoBehaviour
 <details>
 <summary><input type="checkbox" checked disabled> (필수)Step 6. Item 데이터 준비하기 </summary>
 
+![image](https://github.com/user-attachments/assets/c9a2b0ab-5d5e-43f1-96a2-4a3908f1135c)
+
 
 ```
+using UnityEngine;
+
+public enum ItemType
+{
+    Resource,
+    Equipable,
+    Consumable
+}
+public enum ConsumableType
+{
+    Health,
+}
+public enum BuffType
+{
+    Attack,
+    AttackSpeed,
+    Defence,
+    Health,
+    Critical,
+}
+public enum ItemRarity
+{
+    Common,
+    Uncommon,
+    Rare,
+    Unique,
+    Legendary
+}
+[System.Serializable]
+public class ItemDataConsumable
+{
+    public ConsumableType Type;
+    public float Value;
+}
+[System.Serializable]
+public class ItemDataBuff
+{
+    public BuffType Type;
+    public float Time;
+    public float Value;
+}
+[System.Serializable]
+public class ItemDataEquip
+{
+    public BuffType Type;
+    public float Value;
+    public void Apply(ref CharacterStats stats)
+    {
+        switch (Type)
+        {
+            case BuffType.Attack:
+                stats.Attack += (int)Value;
+                break;
+            case BuffType.AttackSpeed:
+                stats.AttackSpeed += (int)Value;
+                break;
+            case BuffType.Defence:
+                stats.Defence += (int)Value;
+                break;
+            case BuffType.Health:
+                stats.Health += (int)Value;
+                break;
+            case BuffType.Critical:
+                stats.Critical += (int)Value;
+                break;
+        }
+    }
+
+    public void Remove(ref CharacterStats stats)
+    {
+        switch (Type)
+        {
+            case BuffType.Attack:
+                stats.Attack -= (int)Value;
+                break;
+            case BuffType.AttackSpeed:
+                stats.AttackSpeed -= (int)Value;
+                break;
+            case BuffType.Defence:
+                stats.Defence -= (int)Value;
+                break;
+            case BuffType.Health:
+                stats.Health -= (int)Value;
+                break;
+            case BuffType.Critical:
+                stats.Critical -= (int)Value;
+                break;
+        }
+    }
+}
+
+[CreateAssetMenu(fileName = "Item", menuName = "New Item")]
+public class ItemData : ScriptableObject
+{
+    [Header("Info")]
+    public string DisplayName;
+    public string Descrition;
+    public ItemType Type;
+    public ItemRarity Rarity;   
+    public Sprite Icon;
+    public GameObject DropPrefab;
+
+    [Header("Stacking")]
+    public int MaxStackAmount;
+
+    [Header("Consumable")]
+    public ItemDataConsumable[] consumables;
+
+    [Header("Buff")]
+    public ItemDataBuff[] buffs;
+
+    [Header("Equip")]
+    public ItemDataEquip[] equips;
+}
+
 
 ```
-- 
+- 스크립터블 오브젝트를 통해서 아이템 데이터 저장
+- UI에 장착, 장착해제함수 추가
 
 </details>
 <details>
 <summary><input type="checkbox" checked disabled> (필수)Step 7. 아이템 장착 </summary>
-
+    
+![Step7](https://github.com/user-attachments/assets/34976f7c-e187-4fee-9407-736031bcae91)
 
 ```
+       public void ToggleEquip()
+       {
+           if (Item == null)
+               return;
 
+           if (!_isEquiped)
+           {
+               _isEquiped = true;
+               _equiped.SetActive(true);
+               _inventory.ApplyItemStat(Item);
+           }
+           else
+           {
+               _isEquiped = false;
+               _equiped.SetActive(false);
+               _inventory.RemoveItemStat(Item);
+           }
+       }
+```
+```
+    // 스탯치 반영
+    public void ApplyItemStat(ItemData item)
+    {
+        if (item == null || item.equips == null) return;
+
+        var stats = Character.Stats;
+
+        foreach (var equip in item.equips)
+            equip.Apply(ref stats);
+
+        Character.Stats = stats; // 옵저버 트리거
+    }
+    public void RemoveItemStat(ItemData item)
+    {
+        if (item == null || item.equips == null) return;
+
+        var stats = Character.Stats;
+
+        foreach (var equip in item.equips)
+            equip.Remove(ref stats);
+
+        Character.Stats = stats; // 옵저버 트리거
+    }
 ```
 - 
 
 </details>
 <details>
 <summary><input type="checkbox" checked disabled> (필수)Step 8. Status에 아이템 정보 반영 </summary>
-
+    
+![Step8](https://github.com/user-attachments/assets/835da24f-55ef-44ce-b2b9-27f6e8d34ce2)
 
 ```
+    public void SetData()
+    {
+        CharacterStats stats = _defaultStatData.ToCharacterStats();
 
+        Inventory inventory = Instantiate(_inventoryPrefab).GetComponent<Inventory>();
+        inventory.UiInventory = _uiManager.UIInventory;
+        inventory.Init();
+
+        _character = _characterPrefab.GetComponent<Character>();
+        _character.Init("Chad", stats, inventory);
+
+        // 옵저버 구독
+        _character.OnStatsChanged += (newStats) =>
+        {
+            _uiManager.UIStatus.SetStatus(_character);
+        };
+        _character.OnCoinChanged += (coin) =>
+        {
+            _uiManager.UIMainMenu.SetDetail(_character);
+        };
+
+        _uiManager.UIMainMenu.SetDetail(_character);
+    }
 ```
-- 
+```
+    [SerializeField]
+    private CharacterStats _stats;
+    public CharacterStats Stats
+    {
+        get => _stats;
+        set
+        {
+            CharacterStats oldStats = _stats;
+            _stats = value;
+
+            if (oldStats.Coin != _stats.Coin)
+            {
+                OnCoinChanged?.Invoke(_stats.Coin);
+            }
+            OnStatsChanged?.Invoke(_stats);
+        }
+    }
+```
+- 옵저버 패턴을 이용해서 Stat 변경시 Invoke로 갱신
 
 </details>
 <details>
 <summary><input type="checkbox" checked disabled> (추가) 1. ScriptableObject 데이터 관리 </summary>
 
+![image](https://github.com/user-attachments/assets/31abad24-2e23-4c21-ad15-b2673a1a96f3)
+
 
 ```
+using UnityEngine;
+using System.Numerics;
+
+[CreateAssetMenu(fileName = "CharacterStatData", menuName = "Game Data/CharacterStatData")]
+public class CharacterStatData : ScriptableObject
+{
+    public JobInfo Job;
+    public int Level;
+    public int MaxExp;
+    public int NowExp;
+    public int Attack;
+    public int AttackSpeed;
+    public int Defence;
+    public int Health;
+    public int Critical;
+
+    [SerializeField]
+    private string _coinString = "0";
+
+    public BigInteger Coin
+    {
+        get => BigInteger.TryParse(_coinString, out var result) ? result : BigInteger.Zero;
+        set => _coinString = value.ToString();
+    }
+    // 스크립터블 오브젝트에서 CharacterStats로 추출
+    public CharacterStats ToCharacterStats()
+    {
+        return new CharacterStats(Job, Level, MaxExp, NowExp, Attack, AttackSpeed, Defence, Health, Critical, Coin);
+    }
+}
 
 ```
-- 
+- 아이템, 플레이어 데이터를 스크립터블 오브젝트로 관리
 
 </details>
 <details>
 <summary><input type="checkbox" checked disabled> (추가) 2. 아이템 뽑기 </summary>
 
+![add1](https://github.com/user-attachments/assets/1d29dae9-b339-46a3-827f-b1b70d434971)
 
 ```
+    //  아이템 뽑기 함수
+    public void SpawnRandItem()
+    {
+        if (_character == null)
+            _character = GameManager.Instance.Character;
+        if (_inventory == null)
+            _inventory = _character.Inventory;
 
+        if (_character.Stats.Coin < Constant.ItemCost)
+            return;
+
+        // 코인 차감
+        var stats = _character.Stats;
+        stats.Coin -= Constant.ItemCost;
+        _character.Stats = stats;
+
+        // 확률에 따라 등급 선택
+        ItemRarity selectedRarity = RollRarity();
+
+        // 해당 등급의 아이템 필터링
+        List<ItemData> candidates = _dataList.FindAll(item => item.Rarity == selectedRarity);
+
+        if (candidates.Count > 0)
+        {
+            int rand = Random.Range(0, candidates.Count);
+            _inventory.AddItem(candidates[rand]);
+        }
+
+    }
 ```
-- 
+- 랜덤 함수를 이용하여 아이템을 인벤토리에 추가
+- 인벤토리 갱신 또한 옵저버 패턴 이용
 
 </details>
 <details>
 <summary><input type="checkbox" checked disabled> (추가) 3. 아이템 등급 분리 </summary>
 
+![add1](https://github.com/user-attachments/assets/1d29dae9-b339-46a3-827f-b1b70d434971)
+
 
 ```
+        public void UpdateIcon(ItemData item)
+        {
+            _icon.sprite = item.Icon;
+            _icon.color = Constant.Alpha255;
+            switch (item.Rarity)
+            {
+                case ItemRarity.Common:
+                    _base.color = Constant.White;
+                    break;
+                case ItemRarity.Uncommon:
+                    _base.color = Constant.Green;
+                    break;
+                case ItemRarity.Rare:
+                    _base.color = Constant.Blue;
+                    break;
+                case ItemRarity.Unique:
+                    _base.color = Constant.Pink;
+                    break;
+                case ItemRarity.Legendary:
+                    _base.color = Constant.Orange;
+                    break;
 
+            }
+        }
 ```
-- 
+```
+    private readonly Dictionary<ItemRarity, float> rarityChances = new()
+    {
+        { ItemRarity.Common, 0.5f },
+        { ItemRarity.Uncommon, 0.25f },
+        { ItemRarity.Rare, 0.15f },
+        { ItemRarity.Unique, 0.07f },
+        { ItemRarity.Legendary, 0.03f }
+    };
+
+    // 등급 지정
+    private ItemRarity RollRarity()
+    {
+        float roll = Random.value; // 0.0 ~ 1.0
+        float cumulative = 0f;
+
+        foreach (var pair in rarityChances)
+        {
+            cumulative += pair.Value;
+            if (roll <= cumulative)
+                return pair.Key;
+        }
+
+        return ItemRarity.Common; 
+    }
+```
+- 등급에 따라서 Slot 색 변경
+- 등급에 따라서 추첨 확률 변경
 
 </details>
 <details>
 <summary><input type="checkbox" checked disabled> (추가) 4. 자동 전투와 연출 </summary>
 
+![add5](https://github.com/user-attachments/assets/79c109a5-bf14-4e17-a070-c103f74e14d5)
 
 ```
+using UnityEngine;
+
+
+public class Weapon : MonoBehaviour
+{
+    private AudioManager _audioManager;
+    private Character _character;
+    [SerializeField] private Enemy _enemy; // 원래라면은 충돌이나 감지를 시켜줘야함
+    public void Init(Character character)
+    {
+        _character = character;
+        _audioManager = GameManager.Instance.AudioManager;
+
+    }
+    public void Attack()
+    {
+        int critNum =  Random.Range(1, 101);
+
+        // 크리티컬 성공
+        if(_character.Stats.Critical >= critNum)
+        {
+            var stats = _character.Stats;
+            var attackPower = (int)(stats.Attack * Constant.CritCoinRate);
+            stats.Coin += attackPower;
+            _character.Stats = stats;
+            _enemy.Hit(attackPower,true);
+        }
+        else // 크리티컬 실패
+        {
+            var stats = _character.Stats;
+            stats.Coin += stats.Attack;
+            _character.Stats = stats;
+            _enemy.Hit(stats.Attack);
+        }
+        _audioManager.PlaySFX("Attack");
+  
+    }
+}
 
 ```
-- 
+- 생성된 능력치를 가지고 전투 기능 추가
+- 공격 데미지 만큼 Coin 획득
+- 공격 애니메이션, 피격 효과, 파티클효과, 플로팅 데미지 기능 추가.
 
 </details>
 <details>
@@ -502,29 +862,203 @@ public class UISlot : MonoBehaviour
 
 
 ```
+using UnityEngine;
+using UnityEngine.Audio;
+using System.Collections.Generic;
+
+public class AudioManager : MonoBehaviour
+{
+
+    [Header("Mixer Settings")]
+    public AudioMixer AudioMixer; // 오디오 믹서 (BGM, SFX 볼륨 제어)
+
+    [Header("Background Music")]
+    public AudioSource BgmSource; // BGM 재생용 AudioSource
+    public AudioClip[] BgmClips;  // 재생 가능한 BGM 클립 배열
+
+    [Header("Sound Effects (Auto Register)")]
+    public AudioSource SfxSource; // SFX 재생용 AudioSource
+    private Dictionary<string, AudioClip> _sfxDict = new Dictionary<string, AudioClip>(); // SFX 이름-클립 매핑 딕셔너리
+
+    private AudioSource _loopSource; // 루프용 AudioSource
+
+    private void Awake()
+    {
+        LoadAllSFX();
+    }
+
+    // Resources/Audio/SFX 폴더 내 모든 오디오 클립을 자동 등록
+    void LoadAllSFX()
+    {
+        AudioClip[] clips = Resources.LoadAll<AudioClip>("Audio/SFX");
+        foreach (AudioClip clip in clips)
+        {
+            if (!_sfxDict.ContainsKey(clip.name))
+            {
+                _sfxDict.Add(clip.name, clip);
+                Debug.Log($"SFX 로드 완료: {clip.name}");
+            }
+        }
+    }
+
+    // 인덱스로 BGM 재생
+    public void PlayBGM(int index)
+    {
+        if (index >= 0 && index < BgmClips.Length)
+        {
+            BgmSource.clip = BgmClips[index];
+            BgmSource.loop = true;
+            BgmSource.Play();
+        }
+    }
+
+    // 이름으로 SFX 재생
+    public void PlaySFX(string name)
+    {
+        if (_sfxDict.TryGetValue(name, out AudioClip clip))
+        {
+            SfxSource.PlayOneShot(clip);
+        }
+        else
+        {
+            Debug.LogWarning($"SFX '{name}' 을(를) 찾을 수 없습니다.");
+        }
+    }
+
+    // 피치와 볼륨 설정하여 SFX 재생
+    public void PlaySFX(string name, float volume, float pitch)
+    {
+        if (_sfxDict.TryGetValue(name, out AudioClip clip))
+        {
+            SfxSource.pitch = pitch;
+            SfxSource.PlayOneShot(clip, volume);
+            SfxSource.pitch = 1f; // 재생 후 피치 초기화
+        }
+    }
+
+    // 위치 기반으로 SFX 재생 (3D 공간)
+    public void PlaySFXAtPosition(string name, Vector3 position)
+    {
+        if (_sfxDict.TryGetValue(name, out AudioClip clip))
+        {
+            AudioSource.PlayClipAtPoint(clip, position);
+        }
+    }
+
+    // 루프 사운드 시작 (지속 재생 효과음)
+    public void PlaySFXLoop(string name)
+    {
+        if (_loopSource == null)
+        {
+            _loopSource = gameObject.AddComponent<AudioSource>();
+            _loopSource.loop = true;
+            _loopSource.playOnAwake = false;
+        }
+
+        if (_sfxDict.TryGetValue(name, out AudioClip clip))
+        {
+            _loopSource.clip = clip;
+            _loopSource.Play();
+        }
+    }
+
+    // 루프 사운드 정지
+    public void StopSFXLoop()
+    {
+        if (_loopSource != null && _loopSource.isPlaying)
+        {
+            _loopSource.Stop();
+        }
+    }
+
+    // BGM 볼륨 설정 (0.0 ~ 1.0 범위, dB 변환)
+    public void SetBGMVolume(float value)
+    {
+        AudioMixer.SetFloat("BGM", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20);
+    }
+
+    // SFX 볼륨 설정 (0.0 ~ 1.0 범위, dB 변환)
+    public void SetSFXVolume(float value)
+    {
+        AudioMixer.SetFloat("SFX", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20);
+    }
+}
 
 ```
-- 
+- Bgm, 공격, 피격, 버튼 사운드 효과 추가
 
 </details>
 <details>
 <summary><input type="checkbox" checked disabled> (추가) 6. 통화 시스템과 BigInteger </summary>
 
+![image](https://github.com/user-attachments/assets/cc3f3656-0a72-45a4-9705-0b00baf3b28c)
+
 
 ```
+using System.Collections;
+using System.Collections.Generic;
+using System.Numerics;
+using UnityEngine;
+
+public class Utils 
+{
+    // Big 인티저를 이용해서 가져오는 포맷값
+    public static string FormatBigInteger(BigInteger number)
+    {
+        if (number < 1000) return number.ToString();
+
+        string[] suffixes = { "", "K", "M", "B", "T", "Q" };
+        int i = 0;
+
+        while (number >= 1000 && i < suffixes.Length - 1)
+        {
+            number /= 1000;
+            i++;
+        }
+
+        return number.ToString() + suffixes[i];
+    }
+
+}
 
 ```
-- 
+- BigInteger와 이를 포맷팅 하는 기능 추가.
+- 아이템 뽑기 혹은 판매시 통화 시스템에 반영
 
 </details>
 <details>
 <summary><input type="checkbox" checked disabled> (추가) 7. 아이템 판매 </summary>
 
+![add6](https://github.com/user-attachments/assets/4019bfd6-cbce-4657-9e7a-dc8c74098db3)
 
 ```
+        // 아이템 판매
+        public void SellItem()
+        {
+            if (Item == null)
+                return;
 
+            //코인 추가
+            var stats = _character.Stats;
+            stats.Coin += Constant.sellCost / 2;
+            _character.Stats = stats;
+
+            // 인벤토리 갱신
+            _base.color = Constant.White;
+            if (_isEquiped)
+            {
+                _isEquiped = false;
+                _equiped.SetActive(false);
+                _inventory.RemoveItemStat(Item);
+            }
+            _inventory.DeleteItem(Idx);
+
+
+            ResetSlot();
+        }
 ```
-- 
+- 아이템 판매 기능 추가
+- 판매는 장착과 판매를 토글하는 방식으로 생성
 
 </details>
 
@@ -546,54 +1080,42 @@ public class UISlot : MonoBehaviour
 <summary><input type="checkbox" checked disabled> 펼쳐보기 </summary>
 
 ```
-├── Camera
-│ ├── CameraAspectFixer.cs
-│ └── CameraController.cs
+├── Audio
+│   └── AudioManager.cs
 │
 ├── Enemy
-│ └── TestEnemy.cs
+│   └── Enemy.cs
+│
+├── Inventory
+│   └── Inventory.cs
 │
 ├── Item
-│ ├── ItemData.cs
-│ ├── ItemObject.cs
-│ └── ItemSlot.cs
+│   ├── ItemData.cs
+│   └── ItemSpawner.cs
 │
 ├── Manager
-│ └── UIManager.cs
-│
-├── Map
-│ ├── JumpPlatform.cs
-│ ├── LaunchPlatform.cs
-│ ├── MovePlatform.cs
-│ ├── Obstruction.cs
-│ └── PlayerChecker.cs
+│   └── GameManager.cs
 │
 ├── Player
-│ ├── BuffController.cs
-│ ├── GroundChecker.cs
-│ ├── PlayerController.cs
-│ ├── PlayerInteractController.cs
-│ ├── PlayerManager.cs
-│ ├── PlayerStatHandler.cs
-│ └── ResourcesController.cs
+│   ├── Character.cs
+│   ├── CharacterStatData.cs
+│   ├── PlayerController.cs
+│   └── Weapon.cs
 │
 ├── UI
-│ ├── Popup
-│ │ ├── UI_Inventory.cs
-│ │ └── UI_Popup.cs
-│ │
-│ ├── Scene
-│ │ ├── UI_Hover.cs
-│ │ ├── UI_HpBar.cs
-│ │ ├── UI_Interaction.cs
-│ │ ├── UI_Scene.cs
-│ │ └── UI_Stamina.cs
-│ │
-│ └── UI_Base.cs
+│   ├── UIBase.cs
+│   ├── UIInventory.cs
+│   ├── UIMainMenu.cs
+│   ├── UIManager.cs
+│   ├── UISlot.cs
+│   └── UIStatus.cs
 │
 ├── Utils
-│ ├── Define.cs
-│ └── Utils.cs
+│   ├── Constant.cs
+│   ├── DamageText.cs
+│   ├── Define.cs
+│   └── Utils.cs
+
 ```
 </details>
 
