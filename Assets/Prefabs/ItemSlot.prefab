@@ -218,7 +218,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7872820137663864409}
         m_TargetAssemblyTypeName: UISlot, Assembly-CSharp
-        m_MethodName: ToggleEquip
+        m_MethodName: OnClickItemSlot
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -1,11 +1,14 @@
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class UISlot : MonoBehaviour
 {
-    private Inventory inventory;
+    public int Idx = -1;
+    private Inventory _inventory;
+    private Character _character;
     public ItemData Item = null;
     private bool _isEquiped = false;
 
@@ -16,7 +19,8 @@ public class UISlot : MonoBehaviour
 
     private void Start()
     {
-        inventory = GameManager.Instance.Character.Inventory;
+        _inventory = GameManager.Instance.Character.Inventory;
+        _character = GameManager.Instance.Character;
     }
     // 아이콘 업데이트
     public void UpdateIcon(ItemData item)
@@ -51,11 +55,43 @@ public class UISlot : MonoBehaviour
     // 장착여부 업데이트
 
     // UI 초기화 함수
-    public void ResetSlot()
+    public void ResetSlot(int idx = -1)
     {
+        if(idx != -1)
+            Idx = idx;
+
         Item = null;
         _icon.sprite = null;
         _icon.color = Constant.Alpha0;
+    }
+
+    public void OnClickItemSlot()
+    {
+        if (_inventory.IsSellMode)
+            SellItem();
+        else
+            ToggleEquip();
+    }
+
+    public void SellItem()
+    {
+        if (Item == null)
+            return;
+
+        //코인 추가
+        var stats = _character.Stats;
+        stats.Coin += Constant.sellCost / 2;
+        _character.Stats = stats;
+
+        // 인벤토리 갱신
+        _base.color = Constant.White;
+        _isEquiped = false;
+        _equiped.SetActive(false);
+        _inventory.RemoveItemStat(Item);
+        _inventory.DeleteItem(Idx);
+
+
+        ResetSlot();
     }
 
     // UI 등장 합수
@@ -68,15 +104,13 @@ public class UISlot : MonoBehaviour
         {
             _isEquiped = true;
             _equiped.SetActive(true);
-            inventory.ApplyItemStat(Item);
+            _inventory.ApplyItemStat(Item);
         }
         else
         {
             _isEquiped = false;
             _equiped.SetActive(false);
-            inventory.RemoveItemStat(Item);
+            _inventory.RemoveItemStat(Item);
         }
-
-
     }
 }

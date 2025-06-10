@@ -4,6 +4,7 @@ public class Constant
 {
     public const int InventoryCount = 120;
     public const int ItemCost = 100;
+    public const int sellCost = 50;
     public const float CritCoinRate = 1.5f;
 
     //»ö»ó

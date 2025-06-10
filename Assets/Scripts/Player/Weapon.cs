@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
             var attackPower = (int)(stats.Attack * Constant.CritCoinRate);
             stats.Coin += attackPower;
             _character.Stats = stats;
-            _enemy.Hit(attackPower);
+            _enemy.Hit(attackPower,true);
         }
         else // 크리티컬 실패
         {
