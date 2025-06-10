@@ -12,7 +12,11 @@
 
 ## 빌드 파일 주소
 
+https://drive.google.com/file/d/1Vtvr9xWM_tKw7vaETlN4cJh5IEMwNfQM/view?usp=sharing
+
 ## 시연 영상 주소
+
+https://youtu.be/JRI1ju5kNLs
 
 ## (추가) 3D 방치형 (절차적 맵 생성 & FSM) 레퍼지토리 링크
 
